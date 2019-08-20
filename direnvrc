@@ -20,6 +20,7 @@ use_nix() {
     [[ shell.nix -nt "$cache" ]];
   then
     [ -d .direnv ] || mkdir .direnv
+    find .direnv/ -maxdepth 1 -name 'cache-*' -delete
     nix-shell --show-trace --pure "$@" --run "\"$direnv\" dump bash" > "$cache"
     update_drv=1
   else
@@ -58,7 +59,6 @@ use_nix() {
   if [ "$out" ] && (( $update_drv )); then
     drv_link=".direnv/drv"
     drv="$(nix show-derivation $out | jq --raw-output 'keys | .[]')"
-    find .direnv/ -maxdepth 1 -name 'cache-*' -delete
     ln -fs "$drv" "$drv_link"
     ln -fs "$PWD/$drv_link" "/nix/var/nix/gcroots/per-user/$LOGNAME/$(basename "$PWD")"
     log_status renewed cache and derivation link
