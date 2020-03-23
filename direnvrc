@@ -76,7 +76,7 @@ _command_exists () {
 }
 
 use_lua(){
-  if type luarocks &> /dev/null; then
+  if _command_exists lua; then
     unset LUA_PATH
     unset LUA_CPATH
     eval $(luarocks path --no-bin)
