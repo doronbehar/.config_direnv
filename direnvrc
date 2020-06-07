@@ -7,7 +7,7 @@ use_lua(){
   if _command_exists lua; then
     unset LUA_PATH
     unset LUA_CPATH
-    eval $(luarocks path --no-bin)
+    eval "$(luarocks path --no-bin)"
     source ~/.shell/lua
     # Make LUA_PATH and LUA_CPATH env vars have ./?.lua and ./?/init.lua at the
     # beginning
